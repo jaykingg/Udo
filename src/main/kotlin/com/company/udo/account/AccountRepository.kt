@@ -1,4 +1,4 @@
-package com.company.udo.Account
+package com.company.udo.account
 
 import org.springframework.data.jpa.repository.JpaRepository
 
