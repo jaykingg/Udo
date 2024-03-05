@@ -5,7 +5,11 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
 @Entity
-@Table(name = "Account")
+@Table(
+    name = "Account", uniqueConstraints = [
+        UniqueConstraint(columnNames = ["email"], name = "uniqueEmailConstraint")
+    ]
+)
 data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
