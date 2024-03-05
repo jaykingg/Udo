@@ -11,7 +11,9 @@ import com.company.udo.rental.RentalRepository
 import com.company.udo.rental.response.RentalResponse
 import com.company.udo.rental.response.convertToRentalResponse
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Service
@@ -46,8 +48,15 @@ class BookService(
         )
     }
 
-    fun getBookList(pageable: Pageable): Page<BookResponse> {
-        val books = bookRepository.findAll(pageable)
+    fun getBookList(pageable: Pageable, sortType: String): Page<BookResponse> {
+        val sortedPageable = when (sortType) {
+            "rentalCount" -> PageRequest.of(pageable.pageNumber, pageable.pageSize, Sort.by("rentalCount").descending())
+            "price" -> PageRequest.of(pageable.pageNumber, pageable.pageSize, Sort.by("price").ascending())
+            "recent" -> PageRequest.of(pageable.pageNumber, pageable.pageSize, Sort.by("registeredAt").descending())
+            else -> pageable
+        }
+
+        val books = bookRepository.findAll(sortedPageable)
         return books.map { book ->
             BookResponse(
                 id = book.id,

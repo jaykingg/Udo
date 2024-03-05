@@ -27,9 +27,10 @@ class BookController(
 
     @GetMapping("/list")
     fun getBookList(
-        pageable: Pageable
+        pageable: Pageable,
+        @RequestParam(required = false, defaultValue = "rentalCount") sortType: String
     ): ResponseEntity<Page<BookResponse>> {
-        return ResponseEntity.ok(bookService.getBookList(pageable))
+        return ResponseEntity.ok(bookService.getBookList(pageable, sortType))
     }
 
     @PostMapping("/rent")

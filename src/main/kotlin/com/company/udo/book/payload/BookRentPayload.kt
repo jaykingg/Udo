@@ -1,8 +1,8 @@
 package com.company.udo.book.payload
 
-import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
 
 data class BookRentPayload(
-    @field: NotBlank(message = "반납 도서 아이디가 있어야합니다.")
+    @field: NotEmpty
     val rentBookIds: List<Long>
 )
