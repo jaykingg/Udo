@@ -69,7 +69,7 @@ class BookService(
                     name = book.account.name
                 ),
                 isRented = book.rentals.any { rental -> rental.returnedAt == null },
-                rentalCount = book.rentals.size
+                rentalCount = book.rentalCount
             )
         }
     }
@@ -87,6 +87,10 @@ class BookService(
                 .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "해당 도서를 찾을 수 없습니다.") }
             if (rentalRepository.findByBookAndReturnedAtIsNull(book).isEmpty) {
                 val rental = Rental(book = book, rentedBy = account)
+
+                book.rentalCount += 1
+                bookRepository.save(book)
+
                 rentals.add(rentalRepository.save(rental).also {
                     scheduleReturn(rental.id)
                 })
