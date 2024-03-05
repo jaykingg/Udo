@@ -22,6 +22,10 @@ fun convertToBookResponse(book: Book): BookResponse {
         isbn = book.isbn,
         price = book.price,
         registeredAt = book.registeredAt,
+        accountResponse = AccountResponse(
+            id = book.account.id,
+            name = book.account.name
+        ),
         isRented = false,
         rentalCount = 0
     )
