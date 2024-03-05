@@ -55,7 +55,10 @@
     ```
 
 ## 도서 관련 API
-
+도서 관련 API 는 인증된 사용자만 접근가능합니다.
+따라서, 로그인을 통해 발급받은 token을 사용하여 API Call 을 진행합니다.
+Curl 을 사용하실 경우 `-H 'Authorization: Bearer $token'` 을 추가,
+Postman 을 사용하실 경우 Authorization Tab 에 Bearer -> token 값을 입력한 뒤 진행해주세요.
 ### 도서 위탁
 
 - **경로:** `/api/book/consign`
