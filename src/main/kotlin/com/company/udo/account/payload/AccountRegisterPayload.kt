@@ -17,7 +17,6 @@ data class AccountRegisterPayload(
     val mobileNumber: String,
 
     @field: NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-    //TODO
-//    @field: Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$", message = "비밀번호 양식과 맞지 않습니다.")
+    @field: Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$", message = "비밀번호 양식과 맞지 않습니다.")
     val password: String
 )

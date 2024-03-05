@@ -4,6 +4,7 @@ import com.company.udo.book.payload.BookCosignPayload
 import com.company.udo.book.payload.BookRentPayload
 import com.company.udo.book.response.BookResponse
 import com.company.udo.rental.response.RentalResponse
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
@@ -18,7 +19,7 @@ class BookController(
 
     @PostMapping("/consign")
     fun consignBook(
-        @RequestBody bookCosignPayload: BookCosignPayload,
+        @Valid @RequestBody bookCosignPayload: BookCosignPayload,
         principal: Principal
     ): ResponseEntity<BookResponse> {
         return ResponseEntity.ok(bookService.consignBook(bookCosignPayload, principal))
@@ -33,7 +34,7 @@ class BookController(
 
     @PostMapping("/rent")
     fun rentBooks(
-        @RequestBody bookRentPayload: BookRentPayload,
+        @Valid @RequestBody bookRentPayload: BookRentPayload,
         principal: Principal
     ): ResponseEntity<List<RentalResponse>> {
         return ResponseEntity.ok(bookService.rentBooks(bookRentPayload, principal))

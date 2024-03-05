@@ -28,8 +28,7 @@ data class Book(
     val account: Account,
 
     val registeredAt: LocalDateTime = LocalDateTime.now(),
-    
+
     @field: OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     val rentals: List<Rental> = mutableListOf()
-
 )

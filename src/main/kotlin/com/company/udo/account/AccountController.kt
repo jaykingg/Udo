@@ -3,6 +3,7 @@ package com.company.udo.account
 import com.company.udo.account.payload.AccountLoginPayload
 import com.company.udo.account.payload.AccountRegisterPayload
 import com.company.udo.account.response.TokenResponse
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -18,16 +19,15 @@ class AccountController(
 
     @PostMapping("/register")
     fun register(
-        @RequestBody payload: AccountRegisterPayload
+        @Valid @RequestBody payload: AccountRegisterPayload
     ): ResponseEntity<Void> {
         accountService.register(payload)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    // return jwt token
     @PostMapping("/login")
     fun login(
-        @RequestBody payload: AccountLoginPayload
+        @Valid @RequestBody payload: AccountLoginPayload
     ): ResponseEntity<TokenResponse> {
         val token = accountService.login(payload)
         return ResponseEntity.ok(TokenResponse(token = token))

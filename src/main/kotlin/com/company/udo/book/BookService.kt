@@ -5,10 +5,11 @@ import com.company.udo.account.response.AccountResponse
 import com.company.udo.book.payload.BookCosignPayload
 import com.company.udo.book.payload.BookRentPayload
 import com.company.udo.book.response.BookResponse
+import com.company.udo.book.response.convertToBookResponse
 import com.company.udo.rental.Rental
 import com.company.udo.rental.RentalRepository
 import com.company.udo.rental.response.RentalResponse
-import com.company.udo.rental.response.convertToResponse
+import com.company.udo.rental.response.convertToRentalResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -33,23 +34,15 @@ class BookService(
             HttpStatus.UNAUTHORIZED,
             "로그인 정보가 잘못되었습니다."
         )
-        val book = bookRepository.save(
-            Book(
-                bookName = payload.bookName,
-                isbn = payload.isbn,
-                price = payload.price,
-                account = account
+        return convertToBookResponse(
+            bookRepository.save(
+                Book(
+                    bookName = payload.bookName,
+                    isbn = payload.isbn,
+                    price = payload.price,
+                    account = account
+                )
             )
-        )
-        // mapper 구현으로 개선가능
-        return BookResponse(
-            id = book.id,
-            bookName = book.bookName,
-            isbn = book.isbn,
-            price = book.price,
-            registeredAt = book.registeredAt,
-            isRented = false,
-            rentalCount = 0
         )
     }
 
@@ -91,7 +84,7 @@ class BookService(
             }
         }
 
-        return rentals.map { convertToResponse(it) }
+        return rentals.map { convertToRentalResponse(it) }
     }
 
     fun scheduleReturn(bookId: Long) {

@@ -9,7 +9,7 @@ data class RentalResponse(
     val rentedAt: LocalDateTime
 )
 
-fun convertToResponse(rental: Rental): RentalResponse {
+fun convertToRentalResponse(rental: Rental): RentalResponse {
     return RentalResponse(
         id = rental.id,
         bookName = rental.book.bookName,
