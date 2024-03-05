@@ -13,6 +13,9 @@
 
 # API 스펙 문서
 
+모든 API 의 도메인은 localhost:8080 입니다.   
+예) `localhost:8080/api/account/regsiter`
+
 ## 사용자 관련 API
 
 ### 사용자 등록
