@@ -1,17 +1,10 @@
-package com.company.udo.account
+package com.company.udo.account.payload
 
-import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 
-@Entity
-@Table(name = "Account")
-data class Account(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
-
+data class AccountRegisterPayload(
     @field: NotBlank(message = "이름은 필수 입력 값입니다.")
     val name: String,
 
@@ -24,7 +17,7 @@ data class Account(
     val mobileNumber: String,
 
     @field: NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-    //@field: Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$", message = "비밀번호 양식과 맞지 않습니다.")
+    //TODO
+//    @field: Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$", message = "비밀번호 양식과 맞지 않습니다.")
     val password: String
-
 )

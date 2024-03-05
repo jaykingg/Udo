@@ -10,12 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    //private val userDetailsService: UserDetailsService,
-    //private val jwtRequestFilter: JwtRequestFilter
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
 
     @Bean
@@ -28,18 +28,19 @@ class SecurityConfig(
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
+        val customFilter = JwtTokenFilter(jwtTokenProvider)
         http
             .authorizeRequests()
             .requestMatchers(toH2Console()).permitAll()
-            .requestMatchers("/api/auth/login", "/api/users/register").permitAll()
-            .requestMatchers("/api/products/**").authenticated()
+            .requestMatchers("/api/account/**").permitAll()
+            .requestMatchers("/api/book/**").authenticated()
             .anyRequest().authenticated()
             .and()
             .headers().frameOptions().disable()
             .and()
             .csrf().ignoringRequestMatchers(toH2Console()).disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        //http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }

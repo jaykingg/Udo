@@ -1,31 +1,41 @@
 package com.company.udo.book
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.company.udo.book.payload.BookCosignPayload
+import com.company.udo.book.payload.BookRentPayload
+import com.company.udo.book.response.BookResponse
+import com.company.udo.rental.response.RentalResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.security.Principal
 
 @RestController
 @RequestMapping("/api/book")
-class BookController {
+class BookController(
+    private val bookService: BookService
+) {
 
-    @PostMapping("/entrust")
-    fun entrustBook() {
-
+    @PostMapping("/consign")
+    fun consignBook(
+        @RequestBody bookCosignPayload: BookCosignPayload,
+        principal: Principal
+    ): ResponseEntity<BookResponse> {
+        return ResponseEntity.ok(bookService.consignBook(bookCosignPayload, principal))
     }
 
     @GetMapping("/list")
-    fun getBookList() {
-
+    fun getBookList(
+        pageable: Pageable
+    ): ResponseEntity<Page<BookResponse>> {
+        return ResponseEntity.ok(bookService.getBookList(pageable))
     }
 
     @PostMapping("/rent")
-    fun rentBooks() {
-
-    }
-
-    @PostMapping("/return")
-    fun returnBooks() {
-
+    fun rentBooks(
+        @RequestBody bookRentPayload: BookRentPayload,
+        principal: Principal
+    ): ResponseEntity<List<RentalResponse>> {
+        return ResponseEntity.ok(bookService.rentBooks(bookRentPayload, principal))
     }
 }
